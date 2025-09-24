@@ -32,9 +32,40 @@ The notebook provides an incremental learning experience covering:
 
 ## Getting Started
 
+### Prerequisites
+
+Before running the notebook, you'll need to set up the following environment variables:
+
+- **`HF_TOKEN`** - Hugging Face API token for accessing models and datasets
+- **`OPENAI_API_KEY`** - OpenAI API key for the RAG pipeline integration
+
+**Setting Environment Variables:**
+
+```bash
+# Option 1: Export in your terminal session
+export HF_TOKEN="your_hugging_face_token_here"
+export OPENAI_API_KEY="your_openai_api_key_here"
+
+# Option 2: Add to your shell profile (~/.bashrc, ~/.zshrc, etc.)
+echo 'export HF_TOKEN="your_hugging_face_token_here"' >> ~/.zshrc
+echo 'export OPENAI_API_KEY="your_openai_api_key_here"' >> ~/.zshrc
+source ~/.zshrc
+
+# Option 3: Create a .env file in this directory (not recommended for public repos)
+# HF_TOKEN=your_hugging_face_token_here
+# OPENAI_API_KEY=your_openai_api_key_here
+```
+
+**Getting API Keys:**
+- **Hugging Face Token**: Visit [huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)
+- **OpenAI API Key**: Visit [platform.openai.com/api-keys](https://platform.openai.com/api-keys)
+
+### Running the Notebook
+
 1. Ensure you have the required VS Code extensions installed (see repository root README)
-2. Open `notebook.ipynb` in VS Code
-3. Follow the step-by-step tutorial from the first cell
-4. Each cell is thoroughly documented and ready to run
+2. Set up the environment variables as described above
+3. Open `notebook.ipynb` in VS Code
+4. Follow the step-by-step tutorial from the first cell
+5. Each cell is thoroughly documented and ready to run
 
 The notebook is designed to be self-contained and runnable as-is, with automatic dependency installation where needed.
