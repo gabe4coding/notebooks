@@ -69,3 +69,5 @@ source ~/.zshrc
 5. Each cell is thoroughly documented and ready to run
 
 The notebook is designed to be self-contained and runnable as-is, with automatic dependency installation where needed.
+
+Also available on [Kaggle](https://www.kaggle.com/code/gabe4ai/notebook) with free GPU access.
