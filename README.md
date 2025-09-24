@@ -5,9 +5,15 @@ A curated list of Jupyter notebooks for learning purposes
 
 To use this repository, you need to install the following VS Code extensions:
 
-```vscode-extensions
-ms-toolsai.jupyter,poml-team.poml
-```
+- **[Jupyter](https://marketplace.visualstudio.com/items?itemName=ms-toolsai.jupyter)** - Native Jupyter notebook support
+- **[POML](https://marketplace.visualstudio.com/items?itemName=poml-team.poml)** - Prompt Orchestration Markup Language support
+
+**Quick Install:** You can also install them via VS Code's command palette:
+1. Press `Ctrl+Shift+P` (or `Cmd+Shift+P` on macOS)
+2. Type `Extensions: Install Extensions`
+3. Search for and install:
+   - `ms-toolsai.jupyter`
+   - `poml-team.poml`
 
 ### Prerequisites
 
