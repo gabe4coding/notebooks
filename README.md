@@ -8,11 +8,8 @@ To use this repository, you need to install the following VS Code extensions:
 [![Jupyter Extension](https://img.shields.io/vscode-marketplace/v/ms-toolsai.jupyter.svg?label=Jupyter&logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=ms-toolsai.jupyter)
 [![POML Extension](https://img.shields.io/vscode-marketplace/v/poml-team.poml.svg?label=POML&logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=poml-team.poml)
 
-**Quick Install Links:**
-- [📦 Install Jupyter Extension](vscode:extension/ms-toolsai.jupyter)
-- [📦 Install POML Extension](vscode:extension/poml-team.poml)
+**Click the badges above** to go to VS Code Marketplace, then click "Install"
 
-**Alternative Installation:** Open VS Code Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`) → `Extensions: Install Extensions` → Search for extension IDs above.
 
 ### Prerequisites
 
