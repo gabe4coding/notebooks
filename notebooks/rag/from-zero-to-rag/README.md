@@ -42,18 +42,18 @@ Before running the notebook, you'll need to set up the following environment var
 **Setting Environment Variables:**
 
 ```bash
-# Option 1: Export in your terminal session
+# Option 1: Create a .env file in this directory
+HF_TOKEN=your_hugging_face_token_here
+OPENAI_API_KEY=your_openai_api_key_here
+
+# Option 2: Export in your terminal session
 export HF_TOKEN="your_hugging_face_token_here"
 export OPENAI_API_KEY="your_openai_api_key_here"
 
-# Option 2: Add to your shell profile (~/.bashrc, ~/.zshrc, etc.)
+# Option 3: Add to your shell profile (~/.bashrc, ~/.zshrc, etc.)
 echo 'export HF_TOKEN="your_hugging_face_token_here"' >> ~/.zshrc
 echo 'export OPENAI_API_KEY="your_openai_api_key_here"' >> ~/.zshrc
 source ~/.zshrc
-
-# Option 3: Create a .env file in this directory (not recommended for public repos)
-# HF_TOKEN=your_hugging_face_token_here
-# OPENAI_API_KEY=your_openai_api_key_here
 ```
 
 **Getting API Keys:**
