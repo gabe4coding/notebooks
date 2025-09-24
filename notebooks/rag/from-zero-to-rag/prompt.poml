@@ -1,0 +1,236 @@
+<poml>
+  <role>
+    Act like a senior Retrieval-Augmented Generation (RAG) SME and Jupyter-notebook author.
+  </role>
+
+  <task>
+    Create a self-contained, beginner-friendly (yet useful for advanced readers) Jupyter Notebook that incrementally teaches how to build a full RAG pipeline, ending with a working, end-to-end demo.
+  </task>
+
+  <section>
+    <h>Constraints</h>
+    <list>
+      <item>Use ONLY open-source embedding and re-ranking models</item>
+      <item>Python 3.10+ compatible code</item>
+      <item>Detailed comments in every code cell</item>
+      <item>Short, clear explanations (≤200 words each)</item>
+      <item>Use OpenAI Python SDK only for the final generation step (not for embeddings or reranking)</item>
+    </list>
+  </section>
+
+  <section>
+    <h>Before You Start</h>
+    <list>
+      <item>Make sensible defaults without asking questions</item>
+      <item>If a dependency is missing, include an install cell that uses Pythonic pip invocation</item>
+      <item>Determinism: set fixed random seeds where practical</item>
+    </list>
+  </section>
+
+  <section>
+    <h>Delivery Format</h>
+    <p>Return a single, valid Jupyter Notebook file (.ipynb, nbformat v4) named exactly `rag_tutorial_v3.ipynb` with proper metadata:</p>
+    <list>
+      <item>kernelspec: Python 3 (≥3.10)</item>
+      <item>language_info: python, version string ≥3.10</item>
+    </list>
+    <p>Provide the notebook as an attached/downloadable file—not as code blocks or scripts. Do not include any extra narration outside the notebook. The notebook must be runnable as-is.</p>
+  </section>
+
+  <section>
+    <h>Notebook Structure</h>
+    <p>Produce in this exact order; each explanation ≤200 words</p>
+
+    <section>
+      <h>Title Section [markdown]</h>
+      <p>Title: "From Zero to RAG: An Incremental, Hands-On Notebook"</p>
+      <p>Brief overview: what readers will learn; what gets built; constraints (Python 3.10+, open-source embeddings and rerankers; OpenAI SDK only for final generation).</p>
+    </section>
+
+    <section>
+      <h>Setup and Environment Check [code]</h>
+      <list>
+        <item>Print Python version</item>
+        <item>Try importing: numpy, pandas, scikit-learn, rank_bm25, sentence_transformers, torch, faiss-cpu (optional), tqdm, openai</item>
+        <item>If imports fail, pip-install them programmatically with comments, then import again</item>
+        <item>Set global random seed for reproducibility</item>
+      </list>
+    </section>
+
+    <section>
+      <h>What is RAG [markdown]</h>
+      <p>Explain RAG succinctly: retrieval + generation, reduces hallucinations; components (indexing, retrievers, fusion, reranking, prompting); strengths and tradeoffs.</p>
+    </section>
+
+    <section>
+      <h>Dataset preparation [markdown]</h>
+      <p>Explain why clean, structured texts matter; fields (id, title, text); using a small synthetic corpus; licensing if using real data; deterministic seeds.</p>
+    </section>
+
+    <section>
+      <h>Comprehensive synthetic dataset creation [code]</h>
+      <list>
+        <item>Build ~20–40 short documents across 4–6 domains (astronomy, cooking, Python, history, health, sports)</item>
+        <item>Store as pandas DataFrame with columns: id, title, text</item>
+        <item>Include some near-duplicates/paraphrases</item>
+        <item>Save to ./data/corpus.csv for reuse</item>
+      </list>
+    </section>
+
+    <section>
+      <h>TF-IDF explanation [markdown]</h>
+      <p>Intuition (term frequency vs inverse document frequency), cosine similarity, advantages (fast, transparent), weaknesses (vocabulary mismatch).</p>
+    </section>
+
+    <section>
+      <h>TF-IDF retrieval demo [code]</h>
+      <list>
+        <item>Use scikit-learn TfidfVectorizer with unigrams+bigrams, lowercase, English stopwords</item>
+        <item>Fit on corpus texts; build matrix</item>
+        <item>Implement query_tfidf() to vectorize a query, compute cosine similarity, return top-k docs with scores</item>
+        <item>Show top-5 results for 2 example queries (titles + snippets)</item>
+      </list>
+    </section>
+
+    <section>
+      <h>BM25 explanation [markdown]</h>
+      <p>Probabilistic model, term saturation, document length normalization; often stronger than vanilla TF-IDF for keyword search.</p>
+    </section>
+
+    <section>
+      <h>BM25 retrieval demo [code]</h>
+      <list>
+        <item>Simple tokenizer (lowercase, basic split)</item>
+        <item>Use rank_bm25.BM25Okapi</item>
+        <item>Implement query_bm25() returning top-k results with scores</item>
+        <item>Compare BM25 vs TF-IDF on a couple of queries (side-by-side)</item>
+      </list>
+    </section>
+
+    <section>
+      <h>Embeddings explanation [markdown]</h>
+      <p>Semantic vectors overcome vocabulary mismatch; ANN (approximate nearest neighbors); tradeoffs (model size, latency, drift); privacy note.</p>
+    </section>
+
+    <section>
+      <h>Chunking [code]</h>
+      <list>
+        <item>Implement chunk_text(text, chunk_size_words=180, overlap_words=30)</item>
+        <item>Expand corpus -> chunked_corpus DataFrame: doc_id, chunk_id, title, chunk_text</item>
+        <item>Show distribution of chunk lengths and explain choices in comments</item>
+      </list>
+    </section>
+
+    <section>
+      <h>Embeddings (local, open-source) + semantic retrieval [code]</h>
+      <list>
+        <item>Use sentence-transformers with open-source model: model_name = "sentence-transformers/all-MiniLM-L6-v2"</item>
+        <item>Comment alternatives: "BAAI/bge-small-en-v1.5", "intfloat/e5-small-v2"</item>
+        <item>Embed all chunks; build either: (A) FAISS IndexFlatIP (normalize vectors) or (B) sklearn NearestNeighbors (cosine) if FAISS unavailable</item>
+        <item>Implement embed_query() and semantic_search(query, top_k=10)</item>
+        <item>Persist embeddings locally to ./data/embeddings.npz (and FAISS index to ./data/faiss.index if used) with clear save/load helpers</item>
+      </list>
+    </section>
+
+    <section>
+      <h>Hybrid BM25 + Embeddings explanation [markdown]</h>
+      <p>Lexical catches exact terms; embeddings capture semantics; combining improves recall and robustness.</p>
+    </section>
+
+    <section>
+      <h>Hybrid retrieval (union) + score normalization [code]</h>
+      <list>
+        <item>Given query, get top_k_lex (BM25) and top_k_sem (embeddings)</item>
+        <item>Union candidate ids; keep per-method ranks/scores</item>
+        <item>Normalize scores (min-max per method) for comparability</item>
+        <item>Produce a merged candidates table for fusion</item>
+      </list>
+    </section>
+
+    <section>
+      <h>Rank Fusion techniques explanation: Reciprocal Rank Fusion (RRF) [markdown]</h>
+      <p>Define formula score = Σ(1 / (k + rank)); robust, simple, rank-based; typical k≈60; stability across heterogeneous retrievers.</p>
+    </section>
+
+    <section>
+      <h>RRF implementation [code]</h>
+      <list>
+        <item>Implement rrf_fuse(rankings: dict[method -> list[(id, rank)]], k=60)</item>
+        <item>Apply to BM25 and Embeddings rankings; output fused top-10</item>
+        <item>Display a compact table with per-method ranks and RRF scores</item>
+      </list>
+    </section>
+
+    <section>
+      <h>Re-ranking models explanation [markdown]</h>
+      <p>Cross-encoders score (query, passage) pairs directly; better precision on small candidate sets; tradeoffs (latency, compute). Use open-source small models.</p>
+    </section>
+
+    <section>
+      <h>Re-ranking with open-source cross-encoder [code]</h>
+      <list>
+        <item>Use "cross-encoder/ms-marco-MiniLM-L-6-v2"</item>
+        <item>Alternatives in comments: "BAAI/bge-reranker-base", "cross-encoder/ms-marco-TinyBERT-L-2-v2"</item>
+        <item>Take fused top-N candidates (e.g., 20); compute relevance scores</item>
+        <item>Sort by reranker score; show improved top-10 with titles/snippets</item>
+        <item>Time steps; print latency</item>
+      </list>
+    </section>
+
+    <section>
+      <h>LLM generation explanation [markdown]</h>
+      <p>Assemble a prompt with top-k chunks (cite titles/ids); instruct the model to answer only from provided context; include a brief system prompt; note max tokens and formatting.</p>
+    </section>
+
+    <section>
+      <h>Generation with OpenAI SDK (final step) [code]</h>
+      <list>
+        <item>Implement answer_query(query): 1) Hybrid retrieval -> RRF -> cross-encoder rerank. 2) Select top context chunks (e.g., 4–6) under a token budget. 3) Call OpenAI Chat Completions with a careful system prompt and citations</item>
+        <item>Example: from openai import OpenAI; client = OpenAI(); resp = client.chat.completions.create(model="gpt-4o-mini", messages=[{"role":"system","content":"You are a careful assistant..."},{"role":"user","content": prompt_with_context}])</item>
+        <item>Read API key from env; handle missing key gracefully</item>
+        <item>Show one or two demo queries end-to-end (print final answer + cited chunk ids)</item>
+      </list>
+    </section>
+
+    <section>
+      <h>When to choose a vector store vs. prompt-embedded dataset vs. local file embeddings [markdown]</h>
+      <p>Concise guidance:</p>
+      <list>
+        <item>Vector store: medium/large corpora, frequent updates, ANN speed, filters</item>
+        <item>Prompt-embedded: very small, static corpora (less than 10 short docs); simplest path</item>
+        <item>Local file embeddings: small/medium, single-node; persist to disk; upgrade to a vector DB when data/traffic grows</item>
+      </list>
+    </section>
+
+    <section>
+      <h>Terms glossary [markdown]</h>
+      <p>One-line definitions: Document, Chunk, Corpus, Index, TF-IDF, BM25, Embedding, Vector store, ANN, FAISS, Hybrid retrieval, RRF, Cross-encoder (reranker), Top-k, Recall vs Precision, Context window, Hallucination, Prompt template, Grounding.</p>
+    </section>
+
+    <section>
+      <h>Simple evaluation harness [code] (Optional)</h>
+      <list>
+        <item>Handcrafted queries with "expected" doc ids</item>
+        <item>Compute hit@k (k=5,10) for TF-IDF, BM25, Embeddings, Hybrid+RRF, Hybrid+RRF+Rerank</item>
+        <item>Print a comparison table to illustrate improvements</item>
+      </list>
+    </section>
+  </section>
+
+  <section>
+    <h>Quality and Style Requirements</h>
+    <list>
+      <item>Every explanation cell ≤200 words, plain language first, then a practical note for advanced readers</item>
+      <item>Every code cell: thorough comments explaining what, why, and tradeoffs</item>
+      <item>Keep outputs readable: print small tables/snippets, not entire documents</item>
+      <item>Deterministic behavior where practical (fixed seeds)</item>
+      <item>Avoid any proprietary embedding or reranking APIs/models. Only local open-source models for those steps</item>
+    </list>
+  </section>
+
+  <output-format>
+    Return exactly one attached file: `rag_tutorial_v3.ipynb`. No extra text or code blocks.
+    
+    Take a deep breath and work on this problem step-by-step.
+  </output-format>
+</poml>
