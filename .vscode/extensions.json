@@ -1,6 +1,6 @@
 {
     "recommendations": [
-        "ms-toolsai.jupyter-hub",
+        "ms-toolsai.jupyter",
         "poml-team.poml"
     ]
 }
