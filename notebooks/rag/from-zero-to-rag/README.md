@@ -41,12 +41,27 @@ Before running the notebook, you'll need to set up the following environment var
 
 **Setting Environment Variables:**
 
-```bash
-# Option 1: Create a .env file in this directory
-HF_TOKEN=your_hugging_face_token_here
-OPENAI_API_KEY=your_openai_api_key_here
+**Recommended Method: Using a .env file**
 
-# Option 2: Export in your terminal session
+Create a `.env` file in this directory (`/notebooks/rag/from-zero-to-rag/`) to store your API keys securely:
+
+1. Create the `.env` file:
+   ```bash
+   touch .env
+   ```
+
+2. Add your API keys to the `.env` file:
+   ```bash
+   HF_TOKEN=your_hugging_face_token_here
+   OPENAI_API_KEY=your_openai_api_key_here
+   ```
+
+3. The notebook will automatically load these variables using Python's `python-dotenv` library
+
+**Alternative Methods:**
+
+```bash
+# Option 2: Export in your terminal session (temporary)
 export HF_TOKEN="your_hugging_face_token_here"
 export OPENAI_API_KEY="your_openai_api_key_here"
 
@@ -55,6 +70,8 @@ echo 'export HF_TOKEN="your_hugging_face_token_here"' >> ~/.zshrc
 echo 'export OPENAI_API_KEY="your_openai_api_key_here"' >> ~/.zshrc
 source ~/.zshrc
 ```
+
+**Important:** Make sure to add `.env` to your `.gitignore` file to avoid committing your API keys to version control.
 
 **Getting API Keys:**
 - **Hugging Face Token**: Visit [huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)
